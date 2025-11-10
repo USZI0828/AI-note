@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "DemoApplication",
+            "request": "launch",
+            "mainClass": "com.zmy.DemoApplication",
+            "projectName": "AI_note"
+        },
+        {
+            "type": "java",
+            "name": "Launch Java Program",
+            "projectName": "robot-manage",
+            "request": "launch",
+            "mainClass": "com.robot.ManageSrvApplication",
+            "args": "--spring.profiles.active=testing,gray8",
+            "vmArgs": "-Xms516M -Xmx2048M -Djps.track.ap.dependencies=false -Dspring-boot.run.fork=false"
+        }
+    ]
+}

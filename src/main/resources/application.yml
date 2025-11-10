@@ -1,0 +1,63 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://124.71.33.238:3306/arrend_system?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  data:
+    redis:
+      host: 124.71.33.238
+      password: 120523
+  mail:
+    host: smtp.qq.com
+    username: 3277512331@qq.com
+    password: brwzezgcgitodaea
+    default-encoding: utf-8
+    port: 465
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+          debug: true
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 5000
+            read-timeout: 5000
+
+mybatis-plus:
+  configuration:
+    auto-mapping-behavior: full
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.sale.pojo.entity # ????
+  mapper-locations: classpath:/mapper/*.xml # mapper.xml??
+  global-config:
+    db-config:
+      logic-delete-field: 1 #??????????1?
+      logic-not-delete-value: 0 #??????????0?
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    swagger-model-name: ???
+
+#minio 文件配置
+minio:
+  endpoint: http://124.71.33.238:9000
+  access-key: admin
+  secret-key: password
+  bucket-name: sale
