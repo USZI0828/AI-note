@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmy.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="com.zmy.pojo.entity.User">
+        <id column="user_id" property="userId"/>
+        <collection property="permList" resultMap="permResultMap"/>
+    </resultMap>
+
+    <resultMap id="permResultMap" type="com.arrend_system.pojo.entity.Perm">
+        <id column="perm_id" property="permId"/>
+    </resultMap>
+
+    <update id="updateUserInfoById">
+        update user
+        <set>
+            <if test="name != null and name.trim() != ''">
+                name = #{name},
+            </if>
+            <if test="username != null and username.trim() != ''">
+                username = #{username},
+            </if>
+            <if test="email != null and email.trim() != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                phone = #{phone},
+            </if>
+            <if test="avatar != null and avatar.trim() != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="count != null and count.trim() != ''">
+                count = #{count},
+            </if>
+        </set>
+        where user_id = #{uId}
+    </update>
+
+    <select id="findUserByUsername" resultMap="userResultMap">
+        select *
+        from user
+        left join user_perm on user.user_id = user_perm.user_id
+        left join perm on perm.perm_id = user_perm.perm_id
+        <where>
+            <if test="username != null and username.trim() != ''">
+                AND user.username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="userInfoVoResultMap" type="com.arrend_system.pojo.vo.UserInfoVo">
+        <id column="user_id" property="uId"/>
+        <result column="username" property="username"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="name" property="name"/>
+        <result column="count" property="count"/>
+        <result column="id_number" property="idNumber"/>
+        <collection property="permList" ofType="com.arrend_system.pojo.entity.Perm">
+            <id column="perm_id" property="permId"/>
+            <result column="perm_target" property="permTarget"/>
+            <result column="perm_detail" property="permDetail"/>
+        </collection>
+    </resultMap>
+
+    <select id="findUserByEmail" resultMap="userInfoVoResultMap">
+        select u.user_id,u.username, u.email, u.avatar, u.phone,u.sex,u.name,u.count,u.id_number,
+               p.perm_id, p.perm_target, p.perm_detail
+        from user u
+                 left join user_perm up on u.user_id = up.user_id
+                 left join perm p on up.perm_id = p.perm_id
+        where u.email = #{email}
+    </select>
+
+    <select id="findUserByName" resultMap="userInfoVoResultMap">
+        select u.user_id,u.username, u.email, u.avatar, u.phone, u.sex,u.name,u.count,u.id_number,
+               p.perm_id, p.perm_target, p.perm_detail
+        from user u
+                 left join user_perm up on u.user_id = up.user_id
+                 left join perm p on up.perm_id = p.perm_id
+        where u.username = #{userName}
+    </select>
+    <select id="findCountById" resultType="java.math.BigDecimal">
+        select user.count
+        where user.user_id = #{userId}
+    </select>
+
+</mapper>
