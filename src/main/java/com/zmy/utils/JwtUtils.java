@@ -1,6 +1,6 @@
 package com.zmy.utils;
 
-import com.arrend_system.service.SecretService;
+import com.zmy.service.SecretService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;

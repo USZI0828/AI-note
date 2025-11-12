@@ -2,6 +2,7 @@ package com.zmy.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zmy.common.Result;
 import com.zmy.pojo.entity.User;
 import com.zmy.pojo.form.LoginForm;
 import com.zmy.pojo.form.RegisterForm;

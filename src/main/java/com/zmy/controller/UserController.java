@@ -1,6 +1,7 @@
 package com.zmy.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zmy.common.Result;
 import com.zmy.pojo.form.LoginForm;
 import com.zmy.pojo.form.RegisterForm;
 import com.zmy.pojo.form.Update.UpdateUserForm;

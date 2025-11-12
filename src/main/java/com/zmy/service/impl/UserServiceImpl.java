@@ -2,6 +2,7 @@ package com.zmy.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zmy.common.Result;
 import com.zmy.exception.UserException.*;
 import com.zmy.mapper.UserMapper;
 import com.zmy.mapper.UserPermMapper;
@@ -11,6 +12,7 @@ import com.zmy.pojo.form.LoginForm;
 import com.zmy.pojo.form.RegisterForm;
 import com.zmy.pojo.form.Update.UpdateUserForm;
 import com.zmy.pojo.vo.UserInfoVo;
+import com.zmy.service.SecretService;
 import com.zmy.service.UserService;
 import com.zmy.utils.EmailCodeUtil;
 import com.zmy.utils.JsonUtil;
@@ -51,8 +53,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private ShopMapper shopMapper;
+    /*@Autowired
+    private ShopMapper shopMapper;*/
 
     @Autowired
     private JavaMailSender mailSender;
@@ -62,7 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public Result<?> login(LoginForm loginForm) throws JsonProcessingException {
-        //将用户名和密码存入authenticationToekn中，调用authenticate方法验证
+        //将用户名和密码存入authenticationToken中，调用authenticate方法验证
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(loginForm.getUsername(),loginForm.getPassword());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -96,7 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             // 设置邮件基本信息
             messageHelper.setFrom("3277512331@qq.com");
             messageHelper.setTo(email);
-            messageHelper.setSubject("跑腿平台邮箱验证");
+            messageHelper.setSubject("学习助手平台邮箱验证");
             // 设置邮件正文（纯文本）
             String content = "您好，您的验证码为：" + code + "，请在1分钟内完成验证。";
             messageHelper.setText(content, false);
@@ -133,11 +135,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             int insert = userMapper.insert(newUser);
             UserPerm up = new UserPerm(null, newUser.getUserId(), registerForm.getPermId());
             upMapper.insert(up);
-            if (registerForm.getPermId() == 2) {
+            /*if (registerForm.getPermId() == 2) {
                 //注册的是商家，新增一条商店的信息
                 Shop shop = new Shop(insert);
                 shopMapper.insert(shop);
-            }
+            }*/
             return Result.success("注册成功");
         }
         return Result.fail(300,"验证码错误",null);
