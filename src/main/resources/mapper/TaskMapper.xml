@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmy.mapper.TaskMapper">
+    <update id="updateInfo">
+        update task
+        <set>
+            <if test="taskName != null and taskName.trim() != ''">
+                task_name = #{taskName},
+            </if>
+            <if test="description != null and description.trim() != ''">
+                description = #{description},
+            </if>
+            <if test="priority != null and priority.trim() != ''">
+                priority = #{priority},
+            </if>
+            <if test="status != null and status.trim() != ''">
+                status = #{status},
+            </if>
+            <if test="deadline != null">
+                deadline = #{deadline},
+            </if>
+            <if test="finishTime != null">
+                finish_time = #{finishTime},
+            </if>
+        </set>
+        where task_id = #{taskId}
+    </update>
+
+    <select id="listPage" resultType="com.zmy.pojo.entity.Task">
+        select * from task
+        <where>
+            <if test="query.userId != null">
+                AND user_id = #{query.userId}
+            </if>
+            <if test="query.subjectId != null">
+                AND subject_id = #{query.subjectId}
+            </if>
+            <if test="query.taskName != null and query.taskName.trim() != ''">
+                AND task_name like concat('%',#{query.taskName},'%')
+            </if>
+            <if test="query.priority != null and query.priority.trim() != ''">
+                AND priority = #{query.priority}
+            </if>
+            <if test="query.status != null and query.status.trim() != ''">
+                AND status = #{query.status}
+            </if>
+        </where>
+    </select>
+
+</mapper>
