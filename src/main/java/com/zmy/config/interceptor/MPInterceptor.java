@@ -1,4 +1,4 @@
-package com.zmy.Config.interceptor;
+package com.zmy.config.interceptor;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

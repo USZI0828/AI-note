@@ -1,7 +1,7 @@
-package com.zmy.Config.baseConfig;
+package com.zmy.config.baseConfig;
 
-import com.arrend_system.config.filter.JwtAuthenticationTokenFilter;
-import com.arrend_system.service.impl.UserDetailServiceImpl;
+import com.zmy.config.filter.JwtAuthenticationTokenFilter;
+import com.zmy.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

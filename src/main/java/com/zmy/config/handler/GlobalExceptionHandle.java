@@ -1,9 +1,7 @@
-package com.zmy.Config.handler;
+package com.zmy.config.handler;
 
-import com.arrend_system.common.Result;
-import com.arrend_system.exception.OrderException.CompletedOrderException;
-import com.arrend_system.exception.OrderException.NoEnoughCountException;
-import com.arrend_system.exception.UserException.*;
+import com.zmy.common.Result;
+import com.zmy.exception.UserException.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -50,14 +48,6 @@ public class GlobalExceptionHandle {
         return Result.fail(105,"用户不存在",null);
     }
 
-    @ExceptionHandler(NoEnoughCountException.class)
-    public Result<?> NoEnoughCountException() {
-        return Result.fail(201,"用户余额不足",null);
-    }
 
-    @ExceptionHandler(CompletedOrderException.class)
-    public Result<?> CompletedOrderException() {
-        return Result.fail(202,"订单已完成，无法取消",null);
-    }
 
 }
