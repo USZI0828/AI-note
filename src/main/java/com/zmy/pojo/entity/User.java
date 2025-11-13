@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,9 +75,6 @@ public class User implements Serializable, UserDetails {
     @TableField(value = "delete_flag")
     private Integer deleteFlag;
 
-    @TableField(value = "count")
-    private BigDecimal count;
-
     @TableField(value = "name")
     private String name;
 
@@ -130,10 +126,9 @@ public class User implements Serializable, UserDetails {
         return deleteFlag == 0;
     }
 
-    public User(String username, String password, String email, BigDecimal count) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.count = count;
     }
 }

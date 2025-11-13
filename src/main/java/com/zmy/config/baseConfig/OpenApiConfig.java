@@ -1,4 +1,4 @@
-package com.zmy.Config.baseConfig;
+package com.zmy.config.baseConfig;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;

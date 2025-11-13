@@ -1,4 +1,4 @@
-package com.zmy.Config.baseConfig;
+package com.zmy.config.baseConfig;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;

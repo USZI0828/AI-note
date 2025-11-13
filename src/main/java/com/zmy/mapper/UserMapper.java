@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.springframework.data.repository.query.Param;
 
-import java.math.BigDecimal;
 
 public interface UserMapper extends BaseMapper<User> {
     User findUserByUsername(@Param("username") String username);
@@ -17,11 +16,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     UserInfoVo findUserByName(@Param("userName")String userName);
 
-    BigDecimal findCountById(@Param("userId") Integer publisher);
-
     void updateUserInfoById(UpdateUserForm updateUserForm);
 
-    @Insert("INSERT INTO user (username, password, email,count) VALUES (#{username}, #{password}, #{email}, #{count})")
+    @Insert("INSERT INTO user (username, password, email) VALUES (#{username}, #{password}, #{email})")
     @Options(useGeneratedKeys = true, keyProperty = "uId") // 自动生成主键
     int insert(User user);
 }
