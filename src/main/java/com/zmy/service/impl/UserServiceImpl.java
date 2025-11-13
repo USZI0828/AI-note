@@ -53,9 +53,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Autowired
     private UserMapper userMapper;
 
-    /*@Autowired
-    private ShopMapper shopMapper;*/
-
     @Autowired
     private JavaMailSender mailSender;
 
@@ -131,15 +128,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             //将用户信息存入数据库
             User newUser = new User(registerForm.getUsername(),
                     passwordEncoder.encode(registerForm.getPassword()),
-                    registerForm.getEmail(), BigDecimal.ZERO);
-            int insert = userMapper.insert(newUser);
+                    registerForm.getEmail());
             UserPerm up = new UserPerm(null, newUser.getUserId(), registerForm.getPermId());
             upMapper.insert(up);
-            /*if (registerForm.getPermId() == 2) {
-                //注册的是商家，新增一条商店的信息
-                Shop shop = new Shop(insert);
-                shopMapper.insert(shop);
-            }*/
             return Result.success("注册成功");
         }
         return Result.fail(300,"验证码错误",null);
