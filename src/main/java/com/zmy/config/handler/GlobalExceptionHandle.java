@@ -1,6 +1,8 @@
 package com.zmy.config.handler;
 
 import com.zmy.common.Result;
+import com.zmy.exception.TaskException.TaskExistedException;
+import com.zmy.exception.TaskException.TaskNoExistedException;
 import com.zmy.exception.UserException.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.validation.BindException;
@@ -48,6 +50,15 @@ public class GlobalExceptionHandle {
         return Result.fail(105,"用户不存在",null);
     }
 
+    @ExceptionHandler(TaskNoExistedException.class)
+    public Result<?> TaskNoExistedException() {
+        return Result.fail(110,"任务不存在",null);
+    }
+
+    @ExceptionHandler(TaskExistedException.class)
+    public Result<?> TaskExistedException() {
+        return Result.fail(110,"任务已存在",null);
+    }
 
 
 }
