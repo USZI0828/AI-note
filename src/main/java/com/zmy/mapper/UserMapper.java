@@ -19,6 +19,6 @@ public interface UserMapper extends BaseMapper<User> {
     void updateUserInfoById(UpdateUserForm updateUserForm);
 
     @Insert("INSERT INTO user (username, password, email) VALUES (#{username}, #{password}, #{email})")
-    @Options(useGeneratedKeys = true, keyProperty = "uId") // 自动生成主键
+    @Options(useGeneratedKeys = true, keyProperty = "userId") // 自动生成主键
     int insert(User user);
 }
