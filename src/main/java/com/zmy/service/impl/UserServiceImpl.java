@@ -129,6 +129,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             User newUser = new User(registerForm.getUsername(),
                     passwordEncoder.encode(registerForm.getPassword()),
                     registerForm.getEmail());
+            newUser.setDeleteFlag(0);
+            userMapper.insert(newUser);
             UserPerm up = new UserPerm(null, newUser.getUserId(), registerForm.getPermId());
             upMapper.insert(up);
             return Result.success("注册成功");
