@@ -3,6 +3,10 @@ package com.zmy.config.handler;
 import com.zmy.common.Result;
 import com.zmy.exception.TaskException.TaskExistedException;
 import com.zmy.exception.TaskException.TaskNoExistedException;
+import com.zmy.exception.TagException.TagExistedException;
+import com.zmy.exception.TagException.TagNoExistedException;
+import com.zmy.exception.NoteException.NoteExistedException;
+import com.zmy.exception.NoteException.NoteNoExistedException;
 import com.zmy.exception.UserException.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.validation.BindException;
@@ -58,6 +62,26 @@ public class GlobalExceptionHandle {
     @ExceptionHandler(TaskExistedException.class)
     public Result<?> TaskExistedException() {
         return Result.fail(110,"任务已存在",null);
+    }
+
+    @ExceptionHandler(TagNoExistedException.class)
+    public Result<?> TagNoExistedException() {
+        return Result.fail(120,"标签不存在",null);
+    }
+
+    @ExceptionHandler(TagExistedException.class)
+    public Result<?> TagExistedException() {
+        return Result.fail(121,"标签已存在",null);
+    }
+
+    @ExceptionHandler(NoteNoExistedException.class)
+    public Result<?> NoteNoExistedException() {
+        return Result.fail(130,"笔记不存在",null);
+    }
+
+    @ExceptionHandler(NoteExistedException.class)
+    public Result<?> NoteExistedException() {
+        return Result.fail(131,"笔记已存在",null);
     }
 
 
