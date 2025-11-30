@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -60,4 +61,11 @@ minio:
   endpoint: http://139.9.179.161:9000
   access-key: admin
   secret-key: password
-  bucket-name: sale
+  bucket-name: note
+
+# OCR服务配置
+ocr:
+  service:
+    url: http://139.9.179.161:5000
+server:
+  port: 8088

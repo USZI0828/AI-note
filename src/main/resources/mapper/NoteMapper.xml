@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmy.mapper.NoteMapper">
+    <update id="updateInfo">
+        update note
+        <set>
+            <if test="subjectId != null">
+                subject_id = #{subjectId},
+            </if>
+            <if test="tagId != null">
+                tag_id = #{tagId},
+            </if>
+            <if test="title != null and title.trim() != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content.trim() != ''">
+                content = #{content},
+            </if>
+            update_time = now()
+        </set>
+        where note_id = #{noteId}
+    </update>
+
+    <resultMap id="NoteResultMap" type="com.zmy.pojo.vo.NoteVo">
+        <id column="note_id" property="noteId"/>
+        <result column="user_id" property="userId"/>
+        <result column="subject_id" property="subjectId"/>
+        <result column="tag_id" property="tagId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_flag" property="deleteFlag"/>
+        <result column="tag_name" property="tagName"/>
+        <result column="subject_name" property="subjectName"/>
+    </resultMap>
+
+    <select id="listPage" resultMap="NoteResultMap">
+        select n.note_id, n.user_id, n.subject_id, n.tag_id, n.title, n.content,
+               n.create_time, n.update_time, n.delete_flag,
+               t.tag_name, s.subject_name
+        from note n
+        left join tag t on n.tag_id = t.tag_id
+        left join subject s on n.subject_id = s.subject_id
+        <where>
+            n.delete_flag = 0
+            <if test="query.userId != null">
+                AND n.user_id = #{query.userId}
+            </if>
+            <if test="query.subjectId != null">
+                AND n.subject_id = #{query.subjectId}
+            </if>
+            <if test="query.tagId != null">
+                AND n.tag_id = #{query.tagId}
+            </if>
+            <if test="query.title != null and query.title.trim() != ''">
+                AND n.title like concat('%',#{query.title},'%')
+            </if>
+            <if test="query.createTimeStart != null">
+                AND n.create_time &gt;= #{query.createTimeStart}
+            </if>
+            <if test="query.createTimeEnd != null">
+                AND n.create_time &lt;= #{query.createTimeEnd}
+            </if>
+        </where>
+        order by n.create_time desc
+    </select>
+
+    <select id="listReviewNotesInWeek" resultMap="NoteResultMap">
+        select n.note_id, n.user_id, n.subject_id, n.tag_id, n.title, n.content,
+               n.create_time, n.update_time, n.delete_flag,
+               t.tag_name, s.subject_name
+        from note n
+        inner join review_schedule rs on n.note_id = rs.note_id
+        left join tag t on n.tag_id = t.tag_id
+        left join subject s on n.subject_id = s.subject_id
+        where n.delete_flag = 0
+          and rs.status = 0
+          and rs.review_time &gt;= #{startTime}
+          and rs.review_time &lt;= #{endTime}
+        <if test="userId != null">
+          and n.user_id = #{userId}
+        </if>
+        order by rs.review_time asc
+    </select>
+
+    <select id="selectVoById" resultMap="NoteResultMap">
+        select n.note_id, n.user_id, n.subject_id, n.tag_id, n.title, n.content,
+               n.create_time, n.update_time, n.delete_flag,
+               t.tag_name, s.subject_name
+        from note n
+        left join tag t on n.tag_id = t.tag_id
+        left join subject s on n.subject_id = s.subject_id
+        where n.note_id = #{noteId}
+    </select>
+
+</mapper>
+
