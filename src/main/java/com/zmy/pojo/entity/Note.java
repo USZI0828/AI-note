@@ -23,7 +23,7 @@ public class Note implements Serializable{
     @TableField(value = "subject_id")
     private Integer subjectId;
     @TableField(value = "tag_id")
-    private Integer tagId;
+    private String tagId;
     @TableField(value = "title")
     private String title;
     @TableField(value = "content")
