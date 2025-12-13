@@ -1,6 +1,8 @@
 package com.zmy.config.handler;
 
 import com.zmy.common.Result;
+import com.zmy.exception.SubjectException.SubjectExistedException;
+import com.zmy.exception.SubjectException.SubjectNoExistedException;
 import com.zmy.exception.TaskException.TaskExistedException;
 import com.zmy.exception.TaskException.TaskNoExistedException;
 import com.zmy.exception.TagException.TagExistedException;
@@ -63,6 +65,12 @@ public class GlobalExceptionHandle {
     public Result<?> TaskExistedException() {
         return Result.fail(110,"任务已存在",null);
     }
+
+    @ExceptionHandler(SubjectNoExistedException.class)
+    public Result<?> SubjectNoExistedException() {return Result.fail(111,"科目不存在",null);}
+
+    @ExceptionHandler(SubjectExistedException.class)
+    public Result<?> SubjectExistedException() {return Result.fail(111,"科目已存在",null);}
 
     @ExceptionHandler(TagNoExistedException.class)
     public Result<?> TagNoExistedException() {

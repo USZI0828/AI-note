@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zmy.mapper.SubjectMapper">
+    <update id="updateInfo">
+        update subject
+        <set>
+            <if test="subjectName != null and subjectName.trim() != ''">
+                subject_name = #{subjectName},
+            </if>
+            <if test="description != null and description.trim() != ''">
+                description = #{description},
+            </if>
+        </set>
+        where subject_id = #{subjectId}
+    </update>
+
+    <select id="listPage" resultType="com.zmy.pojo.entity.Subject">
+        select * from subject
+        <where>
+            <if test="query.subjectName != null and query.subjectName.trim() != ''">
+                AND subject_name like concat('%',#{query.subjectName},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
