@@ -48,6 +48,10 @@ public class Task implements Serializable {
     @TableField(value = "status")
     private String status;
 
+    //提醒时间
+    @TableField(value = "remind_time")
+    private LocalDateTime remindTime;
+
     //创建时间
     @TableField(value = "create_time")
     private LocalDateTime createTime;

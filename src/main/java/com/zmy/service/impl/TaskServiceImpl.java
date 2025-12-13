@@ -10,6 +10,7 @@ import com.zmy.pojo.entity.Task;
 import com.zmy.pojo.form.Update.UpdateTaskForm;
 import com.zmy.pojo.form.add.AddTaskForm;
 import com.zmy.pojo.query.TaskQuery;
+import com.zmy.pojo.vo.TaskVo;
 import com.zmy.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
     @Override
     public Result<?> getInfo(Long id) {
-        Task task = taskMapper.selectById(id);
-        if (task == null) {
+        TaskVo taskVo = taskMapper.getInfoById(id);
+        if (taskVo == null) {
             throw new TaskNoExistedException();
         }
-        return Result.success(task);
+        return Result.success(taskVo);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
                 addForm.getDeadline(),
                 addForm.getDescription(),
                 addForm.getPriority(),
+                null,
                 null,
                 LocalDateTime.now(),
                 null);

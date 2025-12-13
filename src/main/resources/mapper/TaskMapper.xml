@@ -3,6 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zmy.mapper.TaskMapper">
+
+    <resultMap id="TaskInfoMap" type="com.zmy.pojo.vo.TaskVo">
+        <id column="task_id" property="taskId"/>
+        <result column="user_id" property="userId"/>
+        <result column="subject_id" property="subjectId"/>
+        <result column="tag_id" property="tagId"/>
+        <result column="task_name" property="taskName"/>
+        <result column="description" property="description"/>
+        <result column="deadline" property="deadline"/>
+        <result column="priority" property="priority"/>
+        <result column="status" property="status"/>
+        <result column="remind_time" property="remindTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="finish_time" property="finishTime"/>
+        <result column="tag_name" property="tagName"/>
+        <result column="subject_name" property="subjectName"/>
+    </resultMap>
+
     <update id="updateInfo">
         update task
         <set>
@@ -28,8 +46,24 @@
         where task_id = #{taskId}
     </update>
 
-    <select id="listPage" resultType="com.zmy.pojo.entity.Task">
-        select * from task
+    <select id="listPage" resultMap="TaskInfoMap">
+        select t.task_id,
+        t.user_id,
+        t.subject_id,
+        t.tag_id,
+        t.task_name,
+        t.description,
+        t.deadline,
+        t.priority,
+        t.status,
+        t.remind_time,
+        t.create_time,
+        t.finish_time,
+        s.subject_name,
+        tg.tag_name
+        from task t
+        left join tag tg on t.tag_id = tg.tag_id
+        left join subject s on t.subject_id = s.subject_id
         <where>
             <if test="query.userId != null">
                 AND user_id = #{query.userId}
@@ -47,6 +81,27 @@
                 AND status = #{query.status}
             </if>
         </where>
+    </select>
+
+    <select id="getInfoById" resultMap="TaskInfoMap">
+        select t.task_id,
+               t.user_id,
+               t.subject_id,
+               t.tag_id,
+               t.task_name,
+               t.description,
+               t.deadline,
+               t.priority,
+               t.status,
+               t.remind_time,
+               t.create_time,
+               t.finish_time,
+               s.subject_name,
+               tg.tag_name
+        from task t
+                 left join tag tg on t.tag_id = tg.tag_id
+                 left join subject s on t.subject_id = s.subject_id
+        where t.task_id = #{id}
     </select>
 
 </mapper>
