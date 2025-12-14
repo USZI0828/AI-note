@@ -1,16 +1,17 @@
-package com.zmy.pojo.form.add;
+package com.zmy.pojo.vo;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class AddTaskForm {
+public class TaskTodoVo {
+    private Long taskId;
     private Long userId;
     private Long subjectId;
-    private String tagId;
     private String taskName;
-    private String description;
     private LocalDateTime deadline;
-    private String priority;
+    // 关联查询的科目名称
+    private String subjectName;
 }
+

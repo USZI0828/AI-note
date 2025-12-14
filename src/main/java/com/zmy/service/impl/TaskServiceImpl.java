@@ -9,7 +9,9 @@ import com.zmy.mapper.TaskMapper;
 import com.zmy.pojo.entity.Task;
 import com.zmy.pojo.form.Update.UpdateTaskForm;
 import com.zmy.pojo.form.add.AddTaskForm;
+import com.zmy.pojo.query.TaskDeadlineQuery;
 import com.zmy.pojo.query.TaskQuery;
+import com.zmy.pojo.vo.TaskTodoVo;
 import com.zmy.pojo.vo.TaskVo;
 import com.zmy.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +41,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
     @Override
     public Result<?> listPage(TaskQuery query) {
         log.info("分页参数: current={}, size={}", query.getCurrentPage(), query.getPageSize());
-        Page<Task> page = new Page<>(query.getCurrentPage(), query.getPageSize());
+        Page<TaskVo> page = new Page<>(query.getCurrentPage(), query.getPageSize());
         taskMapper.listPage(page, query);
         Map<String, Object> data = new HashMap<>();
         data.put("total", page.getTotal());
@@ -58,6 +60,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         Task newTask = new Task(null,
                 addForm.getUserId(),
                 addForm.getSubjectId(),
+                addForm.getTagId(),
                 addForm.getTaskName(),
                 addForm.getDeadline(),
                 addForm.getDescription(),
@@ -88,5 +91,41 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         }
         taskMapper.deleteById(id);
         return Result.success("任务删除成功");
+    }
+
+    @Override
+    public Result<?> listPageOfTodo(TaskDeadlineQuery query) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startTime = now;
+        LocalDateTime endTime = now.plusDays(1);
+        query.setStartTime(startTime);
+        query.setEndTime(endTime);
+        log.info("分页参数: current={}, size={}", query.getCurrentPage(), query.getPageSize());
+        Page<TaskTodoVo> page = new Page<>(query.getCurrentPage(), query.getPageSize());
+        taskMapper.listPageOfTodo(page, query);
+        Map<String, Object> data = new HashMap<>();
+        data.put("total", page.getTotal());
+        data.put("currentPage", page.getCurrent());
+        data.put("pageNumber", page.getPages());
+        data.put("records", page.getRecords());
+        return Result.success(data);
+    }
+
+    @Override
+    public Result<?> listPageOfDeadline(TaskDeadlineQuery query) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startTime = now.plusDays(1);
+        LocalDateTime endTime = now.plusDays(3);
+        query.setStartTime(startTime);
+        query.setEndTime(endTime);
+        log.info("分页参数: current={}, size={}", query.getCurrentPage(), query.getPageSize());
+        Page<TaskTodoVo> page = new Page<>(query.getCurrentPage(), query.getPageSize());
+        taskMapper.listPageOfDeadline(page, query);
+        Map<String, Object> data = new HashMap<>();
+        data.put("total", page.getTotal());
+        data.put("currentPage", page.getCurrent());
+        data.put("pageNumber", page.getPages());
+        data.put("records", page.getRecords());
+        return Result.success(data);
     }
 }
