@@ -7,6 +7,7 @@ import com.zmy.pojo.form.RegisterForm;
 import com.zmy.pojo.form.Update.UpdateTaskForm;
 import com.zmy.pojo.form.Update.UpdateUserForm;
 import com.zmy.pojo.form.add.AddTaskForm;
+import com.zmy.pojo.query.TaskDeadlineQuery;
 import com.zmy.pojo.query.TaskQuery;
 import com.zmy.service.TaskService;
 import com.zmy.service.UserService;
@@ -50,6 +51,18 @@ public class TaskController {
     @DeleteMapping("/delete")
     public Result<?> delete(Long id) {
         return taskService.delete(id);
+    }
+
+    @Operation(summary = "获取今日待办的任务列表")
+    @PostMapping("/getTodo")
+    public Result<?> getTodo(@RequestBody TaskDeadlineQuery query) {
+        return taskService.listPageOfTodo(query);
+    }
+
+    @Operation(summary = "获取即将截止的任务列表")
+    @PostMapping("/getDeadline")
+    public Result<?> getDeadline(@RequestBody TaskDeadlineQuery query) {
+        return taskService.listPageOfDeadline(query);
     }
 
 

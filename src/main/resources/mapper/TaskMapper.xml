@@ -17,13 +17,16 @@
         <result column="remind_time" property="remindTime"/>
         <result column="create_time" property="createTime"/>
         <result column="finish_time" property="finishTime"/>
-        <result column="tag_name" property="tagName"/>
+        <result column="tag_names" property="tagNames"/>
         <result column="subject_name" property="subjectName"/>
     </resultMap>
 
     <update id="updateInfo">
         update task
         <set>
+            <if test="tagId != null and tagId.trim() != ''">
+                tag_id = #{tagId},
+            </if>
             <if test="taskName != null and taskName.trim() != ''">
                 task_name = #{taskName},
             </if>
@@ -60,9 +63,11 @@
         t.create_time,
         t.finish_time,
         s.subject_name,
-        tg.tag_name
+        (SELECT GROUP_CONCAT(tg.tag_name)
+        FROM tag tg
+        WHERE FIND_IN_SET(CAST(tg.tag_id AS CHAR), t.tag_id) > 0
+        ) AS tag_names
         from task t
-        left join tag tg on t.tag_id = tg.tag_id
         left join subject s on t.subject_id = s.subject_id
         <where>
             <if test="query.userId != null">
@@ -97,11 +102,46 @@
                t.create_time,
                t.finish_time,
                s.subject_name,
-               tg.tag_name
+               (SELECT GROUP_CONCAT(tg.tag_name)
+                FROM tag tg
+                WHERE FIND_IN_SET(CAST(tg.tag_id AS CHAR), t.tag_id) > 0) AS tag_names
         from task t
-                 left join tag tg on t.tag_id = tg.tag_id
                  left join subject s on t.subject_id = s.subject_id
         where t.task_id = #{id}
+    </select>
+
+    <select id="listPageOfTodo" resultType="com.zmy.pojo.vo.TaskTodoVo">
+    <![CDATA[
+        SELECT t.task_id,
+               t.user_id,
+               t.subject_id,
+               t.task_name,
+               t.deadline,
+               s.subject_name
+        FROM task t
+                 LEFT JOIN subject s ON t.subject_id = s.subject_id
+        WHERE t.user_id = #{query.userId}
+          AND t.status = '未完成'
+          AND t.deadline >= #{query.startTime}
+          AND t.deadline < #{query.endTime}
+        ]]>
+    </select>
+
+    <select id="listPageOfDeadline" resultType="com.zmy.pojo.vo.TaskTodoVo">
+        <![CDATA[
+        SELECT t.task_id,
+               t.user_id,
+               t.subject_id,
+               t.task_name,
+               t.deadline,
+               s.subject_name
+        FROM task t
+                 LEFT JOIN subject s ON t.subject_id = s.subject_id
+        WHERE t.user_id = #{query.userId}
+          AND t.status = '未完成'
+          AND t.deadline >= #{query.startTime}
+          AND t.deadline < #{query.endTime}
+        ]]>
     </select>
 
 </mapper>

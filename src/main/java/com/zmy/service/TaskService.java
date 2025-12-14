@@ -5,6 +5,7 @@ import com.zmy.common.Result;
 import com.zmy.pojo.entity.Task;
 import com.zmy.pojo.form.Update.UpdateTaskForm;
 import com.zmy.pojo.form.add.AddTaskForm;
+import com.zmy.pojo.query.TaskDeadlineQuery;
 import com.zmy.pojo.query.TaskQuery;
 
 public interface TaskService extends IService<Task>{
@@ -18,4 +19,8 @@ public interface TaskService extends IService<Task>{
     Result<?> updateInfo(UpdateTaskForm updateForm);
 
     Result<?> delete(Long id);
+
+    Result<?> listPageOfTodo(TaskDeadlineQuery query);
+
+    Result<?> listPageOfDeadline(TaskDeadlineQuery query);
 }

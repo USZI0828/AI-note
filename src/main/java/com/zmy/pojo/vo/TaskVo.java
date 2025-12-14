@@ -9,7 +9,7 @@ public class TaskVo {
     private Long taskId;
     private Long userId;
     private Long subjectId;
-    private Long tagId;
+    private String tagId;
     private String taskName;
     private String description;
     private LocalDateTime deadline;
@@ -21,6 +21,6 @@ public class TaskVo {
     // 关联查询的科目名称
     private String subjectName;
     // 关联查询的标签名称
-    private String tagName;
+    private String tagNames;
 }
 

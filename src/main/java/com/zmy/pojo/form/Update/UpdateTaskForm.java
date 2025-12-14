@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class UpdateTaskForm {
     private Long taskId;
+    private String tagId;
     private String taskName;
     private String description;
     private LocalDateTime deadline;
