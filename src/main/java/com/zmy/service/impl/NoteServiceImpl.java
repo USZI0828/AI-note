@@ -35,11 +35,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements No
 
     @Override
     public Result<?> getInfo(Integer id) {
-        Note note = noteMapper.selectById(id);
-        if (note == null || note.getDeleteFlag() == 1) {
+        NoteVo noteVo = noteMapper.selectVoById(id);
+        if (noteVo == null || noteVo.getDeleteFlag() == 1) {
             throw new NoteNoExistedException();
         }
-        return Result.success(note);
+        return Result.success(noteVo);
     }
 
     @Override

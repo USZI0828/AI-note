@@ -33,7 +33,7 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="delete_flag" property="deleteFlag"/>
-        <result column="tag_names" property="tagNames"/>
+        <result column="tag_names" property="tagNamesStr"/>
         <result column="subject_name" property="subjectName"/>
     </resultMap>
 
