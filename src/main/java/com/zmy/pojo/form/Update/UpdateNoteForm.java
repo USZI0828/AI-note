@@ -6,7 +6,7 @@ import lombok.Data;
 public class UpdateNoteForm {
     private Integer noteId;
     private Integer subjectId;
-    private Integer tagId;
+    private String tagId;
     private String title;
     private String content;
 }

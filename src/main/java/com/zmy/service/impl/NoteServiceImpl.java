@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -34,11 +35,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements No
 
     @Override
     public Result<?> getInfo(Integer id) {
-        Note note = noteMapper.selectById(id);
-        if (note == null || note.getDeleteFlag() == 1) {
+        NoteVo noteVo = noteMapper.selectVoById(id);
+        if (noteVo == null || noteVo.getDeleteFlag() == 1) {
             throw new NoteNoExistedException();
         }
-        return Result.success(note);
+        return Result.success(noteVo);
     }
 
     @Override
@@ -112,7 +113,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements No
         
         log.info("查询近一周需要复习的笔记，userId={}, startTime={}, endTime={}", userId, now, endTime);
         
-        java.util.List<NoteVo> notes = noteMapper.listReviewNotesInWeek(userId, now, endTime);
+        List<NoteVo> notes = noteMapper.listReviewNotesInWeek(userId, now, endTime);
         return Result.success(notes);
     }
 }
