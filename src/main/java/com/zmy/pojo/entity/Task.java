@@ -28,6 +28,10 @@ public class Task implements Serializable {
     @TableField(value = "subject_id")
     private Long subjectId;
 
+    //标签id
+    @TableField(value = "tag_id")
+    private String tagId;
+
     //任务名称
     @TableField(value = "task_name")
     private String taskName;
@@ -59,4 +63,5 @@ public class Task implements Serializable {
     //完成时间
     @TableField(value = "finish_time")
     private LocalDateTime finishTime;
+
 }
