@@ -86,6 +86,21 @@
                 AND status = #{query.status}
             </if>
         </where>
+        <!-- 动态排序 -->
+        <if test="query.orderBy != null and query.orderBy.trim() != ''">
+            ORDER BY
+            <choose>
+                <when test="query.orderBy == 'deadline'">t.deadline</when>
+                <when test="query.orderBy == 'create_time'">t.create_time</when>
+                <otherwise>t.create_time</otherwise>
+            </choose>
+            <if test="query.orderDirection != null and query.orderDirection.trim().toLowerCase() == 'desc'">
+                DESC
+            </if>
+            <if test="query.orderDirection != null and query.orderDirection.trim().toLowerCase() == 'asc'">
+                ASC
+            </if>
+        </if>
     </select>
 
     <select id="getInfoById" resultMap="TaskInfoMap">
