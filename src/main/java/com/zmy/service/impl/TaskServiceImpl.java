@@ -179,10 +179,10 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
     @Override
     public Result<?> addOne(AddTaskForm addForm) {
-        Task task = taskMapper.selectByName(addForm.getTaskName());
+/*        Task task = taskMapper.selectByName(addForm.getTaskName());
         if (task != null) {
             throw new TaskExistedException();
-        }
+        }*/
         // 创建新任务，默认状态为 草稿
         Task newTask = new Task(null,
                 addForm.getUserId(),
