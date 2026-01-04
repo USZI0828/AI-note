@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class NoteQuery extends BaseQuery {
     private Integer userId;
     private Integer subjectId;
-    private Integer tagId;
+    private String tagId;
     private String title;
     private LocalDateTime createTimeStart;
     private LocalDateTime createTimeEnd;

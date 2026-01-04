@@ -6,7 +6,7 @@ import lombok.Data;
 public class AddNoteForm {
     private Integer userId;
     private Integer subjectId;
-    private Integer tagId;
+    private String tagId;
     private String title;
     private String content;
 }

@@ -11,50 +11,30 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@TableName(value = "task")
+@TableName(value = "subtask")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Task implements Serializable {
+public class Subtask implements Serializable {
 
-    @TableId(value = "task_id", type = IdType.AUTO)
+    @TableId(value = "subtask_id", type = IdType.AUTO)
+    private Long subtaskId;
+
+    //taskid
+    @TableField(value = "task_id")
     private Long taskId;
-
-    //用户id
-    @TableField(value = "user_id")
-    private Long userId;
-
-    //科目id
-    @TableField(value = "subject_id")
-    private Long subjectId;
-
-    //标签id
-    @TableField(value = "tag_id")
-    private String tagId;
 
     //任务名称
     @TableField(value = "task_name")
     private String taskName;
 
-    //截止时间
-    @TableField(value = "deadline")
-    private LocalDateTime deadline;
-
     //描述
     @TableField(value = "description")
     private String description;
 
-    //优先级
-    @TableField(value = "priority")
-    private String priority;
-
     //状态
     @TableField(value = "status")
     private String status;
-
-    //提醒时间
-    @TableField(value = "remind_time")
-    private LocalDateTime remindTime;
 
     //创建时间
     @TableField(value = "create_time")
@@ -63,8 +43,5 @@ public class Task implements Serializable {
     //完成时间
     @TableField(value = "finish_time")
     private LocalDateTime finishTime;
-    // 是否已发送提醒邮件（0 未发送 1 已发送）
-    @TableField(value = "remind_sent")
-    private Integer remindSent;
 
 }

@@ -56,6 +56,16 @@ public class GlobalExceptionHandle {
         return Result.fail(105,"用户不存在",null);
     }
 
+    @ExceptionHandler(UsernameErrorException.class)
+    public Result<?> UsernameErrorException() {
+        return Result.fail(106,"用户名不存在",null);
+    }
+
+    @ExceptionHandler(PasswordErrorException.class)
+    public Result<?> PasswordErrorException() {
+        return Result.fail(107,"密码错误",null);
+    }
+
     @ExceptionHandler(TaskNoExistedException.class)
     public Result<?> TaskNoExistedException() {
         return Result.fail(110,"任务不存在",null);

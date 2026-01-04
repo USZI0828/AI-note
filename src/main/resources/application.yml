@@ -13,6 +13,14 @@ spring:
     redis:
       host: 139.9.179.161
       password: 120523
+  ai:
+    deepseek:
+      api-key: ${DEEPSEEK_API_KEY:sk-35f7ebe79cc04bacb0ed1674a670bb10}
+      chat:
+        options:
+          # DeepSeek 模型名称：deepseek-chat, deepseek-coder 等
+          model: deepseek-chat
+          temperature: 0.7
   mail:
     host: smtp.qq.com
     username: 3277512331@qq.com
@@ -37,6 +45,19 @@ spring:
           default:
             connect-timeout: 5000
             read-timeout: 5000
+
+xxl:
+  job:
+    admin:
+      addresses: http://139.9.179.161:9998/xxl-job-admin
+    accessToken: default_token
+    executor:
+      appname: xxl-job-executor-sample
+      address: ""
+      ip:
+      port: 9999
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 3
 
 mybatis-plus:
   configuration:
@@ -67,5 +88,12 @@ minio:
 ocr:
   service:
     url: http://139.9.179.161:5000
+
+# 代理配置（用于访问Gemini API，如不需要代理可删除或留空）
+proxy:
+  enabled: false
+  host: 
+  port: 0
+
 server:
   port: 8088
