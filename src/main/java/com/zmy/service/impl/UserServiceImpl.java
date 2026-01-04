@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zmy.common.Result;
 import com.zmy.exception.UserException.*;
+import com.zmy.exception.UserException.UsernameErrorException;
+import com.zmy.exception.UserException.PasswordErrorException;
 import com.zmy.mapper.UserMapper;
 import com.zmy.mapper.UserPermMapper;
 import com.zmy.pojo.entity.User;
@@ -26,11 +28,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -61,19 +63,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public Result<?> login(LoginForm loginForm) throws JsonProcessingException {
-        //将用户名和密码存入authenticationToken中，调用authenticate方法验证
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(loginForm.getUsername(),loginForm.getPassword());
-        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        User user = (User)authentication.getPrincipal();
-        if (user.getDeleteFlag() == 1) {
-            //用户已经被删除
-            throw new UserDeletedException();
+        // 先根据用户名查询用户，若不存在则直接抛出用户名不存在异常
+        User existingUser = userMapper.findUserByUsername(loginForm.getUsername());
+        if (existingUser == null) {
+            throw new UsernameErrorException();
         }
-        String userInfo_ky = "user_" + user.getUsername();
-        String userInfo = JsonUtil.serialize(user);
-        redisTemplate.opsForValue().set(userInfo_ky,userInfo,30L, TimeUnit.DAYS);
-        return Result.success(JwtUtils.createJwt(userInfo_ky,redisTemplate,service));
+        try {
+            //将用户名和密码存入authenticationToken中，调用authenticate方法验证
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(loginForm.getUsername(),loginForm.getPassword());
+            Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            User user = (User)authentication.getPrincipal();
+            if (user.getDeleteFlag() == 1) {
+                //用户已经被删除
+                throw new UserDeletedException();
+            }
+            String userInfo_ky = "user_" + user.getUsername();
+            String userInfo = JsonUtil.serialize(user);
+            redisTemplate.opsForValue().set(userInfo_ky,userInfo,30L, TimeUnit.DAYS);
+            return Result.success(JwtUtils.createJwt(userInfo_ky,redisTemplate,service));
+        } catch (BadCredentialsException e) {
+            // 密码错误
+            throw new PasswordErrorException();
+        }
     }
 
     @Override

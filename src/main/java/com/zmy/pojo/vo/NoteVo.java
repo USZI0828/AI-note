@@ -17,6 +17,8 @@ public class NoteVo {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private Integer deleteFlag;
+    // 学习时长，单位与数据库一致
+    private Float duration;
     // 关联查询的标签名称（数组类型）
     private List<String> tagNames;
     // 关联查询的科目名称

@@ -11,6 +11,8 @@ import com.zmy.pojo.query.TaskQuery;
 public interface TaskService extends IService<Task>{
 
     Result<?> getInfo(Long id);
+    
+    Result<?> getInfoWithNotes(Long id);
 
     Result<?> listPage(TaskQuery query);
 
