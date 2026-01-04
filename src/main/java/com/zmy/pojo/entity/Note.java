@@ -34,5 +34,8 @@ public class Note implements Serializable{
     private LocalDateTime updateTime;
     @TableField(value = "delete_flag")
     private Integer deleteFlag;
+    // 学习时长（小时或分钟，float 类型，根据业务约定）
+    @TableField(value = "duration")
+    private Float duration;
 
 }

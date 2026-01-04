@@ -30,6 +30,12 @@ public class NoteController {
         return noteService.getInfo(id);
     }
 
+    @Operation(summary = "获取用户全部笔记的总学习时长")
+    @GetMapping("/totalDuration")
+    public Result<?> totalDuration(@RequestParam("userId") Integer userId) {
+        return noteService.getTotalStudyDuration(userId);
+    }
+
     @Operation(summary = "获取笔记列表（分页，支持按创建时间、标签、科目查询）")
     @PostMapping("/list")
     public Result<?> list(@RequestBody NoteQuery query) {
@@ -54,6 +60,12 @@ public class NoteController {
         return noteService.delete(id);
     }
 
+    @Operation(summary = "增加笔记学习时长（累加）")
+    @PostMapping("/addDuration")
+    public Result<?> addDuration(@RequestParam("noteId") Integer noteId, @RequestParam("duration") Float duration) {
+        return noteService.addStudyDuration(noteId, duration);
+    }
+
     @Operation(summary = "查询近一周需要复习的笔记")
     @GetMapping("/reviewList")
     public Result<?> reviewList(@RequestParam("userId") Integer userId) {
@@ -64,6 +76,12 @@ public class NoteController {
     @GetMapping("/exportPdf")
     public void exportPdf(@RequestParam("noteId") Integer noteId, HttpServletResponse response) throws IOException {
         notePdfService.exportNoteToPdf(noteId, response);
+    }
+
+    @Operation(summary = "总结笔记内容（生成100-150字摘要）")
+    @GetMapping("/summarize")
+    public Result<?> summarize(@RequestParam("noteId") Integer noteId) {
+        return noteService.summarizeNote(noteId);
     }
 }
 

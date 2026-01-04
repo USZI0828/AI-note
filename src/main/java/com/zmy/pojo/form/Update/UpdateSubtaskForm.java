@@ -5,14 +5,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class UpdateTaskForm {
-    private Long taskId;
-    private String tagId;
+public class UpdateSubtaskForm {
+    private Long subtaskId;
     private String taskName;
-    private Integer subjectId;
     private String description;
-    private LocalDateTime deadline;
-    private String priority;
     private String status;
     private LocalDateTime finishTime;
 }
+
+
