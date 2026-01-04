@@ -12,5 +12,6 @@ public class AddTaskForm {
     private String taskName;
     private String description;
     private LocalDateTime deadline;
+    private LocalDateTime remindTime;
     private String priority;
 }

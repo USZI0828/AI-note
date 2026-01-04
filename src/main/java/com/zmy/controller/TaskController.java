@@ -1,16 +1,11 @@
 package com.zmy.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zmy.common.Result;
-import com.zmy.pojo.form.LoginForm;
-import com.zmy.pojo.form.RegisterForm;
 import com.zmy.pojo.form.Update.UpdateTaskForm;
-import com.zmy.pojo.form.Update.UpdateUserForm;
 import com.zmy.pojo.form.add.AddTaskForm;
 import com.zmy.pojo.query.TaskDeadlineQuery;
 import com.zmy.pojo.query.TaskQuery;
 import com.zmy.service.TaskService;
-import com.zmy.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +22,12 @@ public class TaskController {
     @GetMapping("/getInfo")
     public Result<?> getInfo(Long id) {
         return taskService.getInfo(id);
+    }
+
+    @Operation(summary = "获取单个任务及其推荐笔记")
+    @GetMapping("/getInfoWithNotes")
+    public Result<?> getInfoWithNotes(Long id) {
+        return taskService.getInfoWithNotes(id);
     }
 
     @Operation(summary = "获取任务列表")

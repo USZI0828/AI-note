@@ -20,5 +20,13 @@ public interface NoteService extends IService<Note> {
     Result<?> delete(Integer id);
 
     Result<?> listReviewNotesInWeek(Integer userId);
+
+    Result<?> summarizeNote(Integer noteId);
+
+    // 将传入的学习时长加到笔记已有学习时长中
+    Result<?> addStudyDuration(Integer noteId, Float durationToAdd);
+    
+    // 获取某用户的笔记总学习时长
+    Result<?> getTotalStudyDuration(Integer userId);
 }
 

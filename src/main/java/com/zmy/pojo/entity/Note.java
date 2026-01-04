@@ -23,7 +23,7 @@ public class Note implements Serializable{
     @TableField(value = "subject_id")
     private Integer subjectId;
     @TableField(value = "tag_id")
-    private Integer tagId;
+    private String tagId;
     @TableField(value = "title")
     private String title;
     @TableField(value = "content")
@@ -34,5 +34,8 @@ public class Note implements Serializable{
     private LocalDateTime updateTime;
     @TableField(value = "delete_flag")
     private Integer deleteFlag;
+    // 学习时长（小时或分钟，float 类型，根据业务约定）
+    @TableField(value = "duration")
+    private Float duration;
 
 }

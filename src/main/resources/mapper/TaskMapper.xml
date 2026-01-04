@@ -17,6 +17,7 @@
         <result column="remind_time" property="remindTime"/>
         <result column="create_time" property="createTime"/>
         <result column="finish_time" property="finishTime"/>
+        <result column="subtask_percent" property="subtaskPercent"/>
         <result column="tag_names" property="tagNames"/>
         <result column="subject_name" property="subjectName"/>
     </resultMap>
@@ -35,6 +36,9 @@
             </if>
             <if test="priority != null and priority.trim() != ''">
                 priority = #{priority},
+            </if>
+            <if test="subjectId != null">
+                subject_id = #{subjectId},
             </if>
             <if test="status != null and status.trim() != ''">
                 status = #{status},
@@ -62,6 +66,10 @@
         t.remind_time,
         t.create_time,
         t.finish_time,
+        /* 计算子任务完成百分比：若无子任务返回0 */
+        (SELECT CASE WHEN COUNT(ts.subtask_id)=0 THEN 0 ELSE FLOOR(SUM(CASE WHEN s.status = '已完成' THEN 1 ELSE 0 END)*100/COUNT(ts.subtask_id)) END
+         FROM task_sub ts LEFT JOIN subtask s ON ts.subtask_id = s.subtask_id WHERE ts.task_id = t.task_id
+        ) AS subtask_percent,
         s.subject_name,
         (SELECT GROUP_CONCAT(tg.tag_name)
         FROM tag tg
@@ -116,6 +124,9 @@
                t.remind_time,
                t.create_time,
                t.finish_time,
+               (SELECT CASE WHEN COUNT(ts.subtask_id)=0 THEN 0 ELSE FLOOR(SUM(CASE WHEN s.status = '已完成' THEN 1 ELSE 0 END)*100/COUNT(ts.subtask_id)) END
+                FROM task_sub ts LEFT JOIN subtask s ON ts.subtask_id = s.subtask_id WHERE ts.task_id = t.task_id
+               ) AS subtask_percent,
                s.subject_name,
                (SELECT GROUP_CONCAT(tg.tag_name)
                 FROM tag tg
